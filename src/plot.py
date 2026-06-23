@@ -10,9 +10,10 @@ labelfont = 16
 legendfont = 16
 size = (10,6)
 scatter_color = "blue"
+format = "pdf"
+#format = "svg"
 
-
-def fair_dice_check(system, E_i, save=False, save_dir="plots", filename="fair_dice_check.svg"):
+def fair_dice_check(system, E_i, save=False, save_dir="plots", filename="fair_dice_check."+format):
     """
     Generate a bar plot of the frequencies of E_i in all subsystem values to check the fairness of the dice.
     """
@@ -42,12 +43,12 @@ def fair_dice_check(system, E_i, save=False, save_dir="plots", filename="fair_di
     if save:
         os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, filename)
-        plt.savefig(save_path, format='svg', dpi=300)
-        print(f"Plot saved as SVG at: {save_path}")
+        plt.savefig(save_path, format=format, dpi=300)
+        
 
-    plt.show()
+    # plt.show()
 
-def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy_frequency.svg", max_ticks=10):
+def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy_frequency."+format, max_ticks=10):
     """
     Generate a bar plot of the frequency of energy values in all subsystems.
     """
@@ -78,12 +79,12 @@ def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy
     if save:
         os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, filename)
-        plt.savefig(save_path, format='svg', dpi=300)
-        print(f"Plot saved as SVG at: {save_path}")
+        plt.savefig(save_path, format=format, dpi=300)
+        
 
-    plt.show()
+    # plt.show()
 
-def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plots", filename="subsystem_details.svg"):
+def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plots", filename="subsystem_details."+format):
     """
     Generate a figure with 4 subplots corresponding to 4 selected subsystems, each showing a bar plot of self.p vs E_i.
     """
@@ -124,9 +125,9 @@ def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plo
     if save:
         os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, filename)
-        plt.savefig(save_path, format='svg', dpi=300)
+        plt.savefig(save_path, format=format, dpi=300)
 
-    plt.show()
+    # plt.show()
 
     # Create a figure with 4 subplots (2 rows and 2 columns)
     fig, axes = plt.subplots(2, 2, figsize=size)
@@ -160,7 +161,7 @@ def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plo
         # Set axis labels and title
         ax.set_xlabel(f"$V_n$", fontsize=labelfont)
         ax.set_ylabel("Probability", fontsize=labelfont)
-        ax.set_title(f"E={sub.energy}", fontsize=titlefont)
+        ax.set_title(f"$\\Sigma$={sub.energy}", fontsize=titlefont)
 
         # Set the x-ticks and y-ticks with the proper font size
         ax.tick_params(axis='x', which='major', labelsize=tickfont)
@@ -173,11 +174,11 @@ def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plo
     if save:
         os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, filename)
-        plt.savefig(save_path, format='svg', dpi=300)
+        plt.savefig(save_path, format=format, dpi=300)
 
-    plt.show()
+    # plt.show()
 
-def plot_quantities(system, save=False, save_dir="plots/", filename=["S.svg","C.svg","beta.svg"]):
+def plot_quantities(system, save=False, save_dir="plots/", filename=["S."+format,"C."+format,"beta."+format]):
     E = [sub.energy for sub in system.subsystems if sub.S != 0]  # Extract energies from subsystems
     S = [sub.S for sub in system.subsystems if sub.S != 0]       # Entropy values
     C = [sub.C for sub in system.subsystems]       # Heat capacity values
@@ -191,8 +192,8 @@ def plot_quantities(system, save=False, save_dir="plots/", filename=["S.svg","C.
     #plt.title('S vs E', fontsize=titlefont)
     plt.grid()
     if save:
-        fig_S.savefig(f"{save_dir+'/'+filename[0]}", format="svg")
-    plt.show()
+        fig_S.savefig(f"{save_dir+'/'+filename[0]}", format=format)
+    # plt.show()
     E = [sub.energy for sub in system.subsystems]
     # # Plot C vs E
     # fig_C = plt.figure(figsize=(10, 6))
@@ -202,7 +203,7 @@ def plot_quantities(system, save=False, save_dir="plots/", filename=["S.svg","C.
     # #plt.title('C vs E', fontsize=titlefont)
     # plt.grid()
     # if save:
-    #     fig_C.savefig(f"{save_dir+'/'+filename[1]}", format="svg")
+    #     fig_C.savefig(f"{save_dir+'/'+filename[1]}", format=format)
     # plt.show()
     # E = [sub.energy for sub in system.subsystems if sub.beta != 0]
     # # Plot beta vs E with best fit line and confidence interval
@@ -215,10 +216,10 @@ def plot_quantities(system, save=False, save_dir="plots/", filename=["S.svg","C.
     # plt.ylim(-1,1)
     # plt.grid()
     # if save:
-    #     fig_beta.savefig(f"{save_dir+'/'+filename[2]}", format="svg")
+    #     fig_beta.savefig(f"{save_dir+'/'+filename[2]}", format=format)
     # plt.show()
     
-def plot_all(system1, system2, system3, save=False, save_dir="plots", filename="Entropy_comparison.svg"):
+def plot_all(system1, system2, system3, save=False, save_dir="plots", filename="Entropy_comparison."+format):
     systems = [system1,system2,system3]
     colors = ["blue","red","green"]
     plt.figure(figsize=size)
@@ -234,10 +235,10 @@ def plot_all(system1, system2, system3, save=False, save_dir="plots", filename="
     plt.tight_layout
     if save:
         save_path=os.path.join(save_dir,filename)
-        plt.savefig(save_path, format='svg', dpi=300)
-    plt.show()
+        plt.savefig(save_path, format=format, dpi=300)
+    # plt.show()
 
-def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, save_dir="plots", filename=["Entropy_comparison_subsystems.svg","beta_comparison_subsystems.svg","beta_approach_eq.svg"]):
+def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, save_dir="plots", filename=["Entropy_comparison_subsystems."+format,"beta_comparison_subsystems."+format,"beta_approach_eq."+format]):
 
     energy_vals = []
     entropy_vals = []
@@ -305,11 +306,8 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         plt.tight_layout
         if save:
             save_path=os.path.join(save_dir,filename[0])
-            fig1.savefig(save_path, format='svg', dpi=300)
-        plt.show()
-
-        # Show plot
-        plt.show()
+            fig1.savefig(save_path, format=format, dpi=300)
+        #plt.show()
 
         fig2= plt.figure(figsize=size)
         energies = [sub.energy for sub in system3.subsystems if sub.beta!=0]
@@ -321,21 +319,19 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         # Add colorbar
         cbar = plt.colorbar(scatter)
         cbar.set_label(f'$\\Sigma_Q$', fontsize=labelfont)
-
+        
         # Labels and title
         plt.xlabel(f"$\\Sigma_{{R+B}}$", fontsize=labelfont)
         plt.ylabel(f"$\\beta$",fontsize=labelfont)
         #plt.title(f"$\\beta$ Comparison for Systems in and Out of Equilibrium", fontsize=titlefont)
         plt.grid()
-        plt.legend(fontsize=legendfont)
+        # plt.legend(fontsize=legendfont) 
         plt.tight_layout
         if save:
             save_path=os.path.join(save_dir,filename[1])
-            fig2.savefig(save_path, format='svg', dpi=300)
-        plt.show()
+            fig2.savefig(save_path, format=format, dpi=300)
+        #plt.show()
 
-        # Show plot
-        plt.show()
     else:
         x_vals = np.arange(0,len(beta_A),1)
 
@@ -353,20 +349,26 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         cbar = plt.colorbar(scatter)
         cbar.set_label('Heat transfer', fontsize=labelfont)
         
+        top_text = (f"$\\beta^0_R$")
+        bottom_text = (f"$\\beta^0_B$")
+        plt.text(0.85, 0.91, top_text, transform=plt.gca().transAxes, fontsize=labelfont+4, ha='center', va='bottom')
+        plt.text(0.85, 0.02, bottom_text, transform=plt.gca().transAxes, fontsize=labelfont+4, ha='center', va='bottom')
+
+
         # Labels and title
         plt.xlabel("Steps to equilibrium", fontsize=labelfont)
         plt.ylabel(f"$\\beta$", fontsize=labelfont)
         #plt.title(f"E = {subsystems_indices[0]} $\\beta$ Steps to Equilibrium", fontsize=titlefont)
-        plt.legend(fontsize=legendfont)
+        #plt.legend(fontsize=legendfont)
         plt.grid()
         plt.tight_layout()
 
         # Save if needed
         if save:
             save_path = os.path.join(save_dir, f"{subsystems_indices[0]}"+filename[2])
-            plt.savefig(save_path, format='svg', dpi=300)
+            plt.savefig(save_path, format=format, dpi=300)
 
         # Show plot
-        plt.show()
+        # plt.show()
 
 
