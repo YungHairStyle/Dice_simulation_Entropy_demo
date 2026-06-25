@@ -1,3 +1,13 @@
+"""
+System module for the Dice Simulation and Entropy Demonstration.
+
+Author: Asaad Hanna
+
+This file defines the System class, which represents a complete dice system.
+It generates dice-roll configurations, tracks subsystem energies, and provides
+the data used to study entropy, equilibrium, and Boltzmann-like behavior.
+"""
+
 from Subsystem import Subsystem
 import numpy as np
 import random

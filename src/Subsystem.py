@@ -1,3 +1,13 @@
+"""
+Subsystem module for the Dice Simulation and Entropy Demonstration.
+
+Author: Asaad Hanna
+
+This file defines the Subsystem class, which stores the statistical quantities
+of a subsystem, including probability distributions, entropy, beta, heat
+capacity, and Boltzmann probabilities.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter

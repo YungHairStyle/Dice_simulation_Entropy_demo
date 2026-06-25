@@ -1,14 +1,22 @@
+"""
+Plotter module for the Dice Simulation and Entropy Demonstration.
+
+Author: Asaad Hanna
+
+This file contains the methods to produce the plots for the Dice systems
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 from collections import Counter
 import os 
 
 # Set default parameters for plots
-tickfont = 16
-titlefont = 20
-labelfont = 16
+tickfont = 28
+titlefont = 28
+labelfont = 34
 legendfont = 16
-size = (10,6)
+size = (12,10)
 scatter_color = "blue"
 format = "pdf"
 #format = "svg"
@@ -30,7 +38,7 @@ def fair_dice_check(system, E_i, save=False, save_dir="plots", filename="fair_di
     # Plot
     plt.figure(figsize=size)  # Consistent figure size
     plt.bar(E_i, frequencies, edgecolor='black')
-    plt.xlabel(f"$V_n$", fontsize=labelfont)
+    plt.xlabel(f"$V_n$", fontsize=labelfont+8)
     plt.ylabel("Probability", fontsize=labelfont)
     #plt.title(f"Frequencies of Dice Faces", fontsize=titlefont)
     plt.xticks(E_i, fontsize=tickfont)
@@ -48,7 +56,7 @@ def fair_dice_check(system, E_i, save=False, save_dir="plots", filename="fair_di
 
     # plt.show()
 
-def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy_frequency."+format, max_ticks=10):
+def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy_frequency."+format, max_ticks=5):
     """
     Generate a bar plot of the frequency of energy values in all subsystems.
     """
@@ -66,11 +74,11 @@ def plot_energy_frequency(system, save=False, save_dir="plots", filename="energy
     if len(energies) > max_ticks:
         step = len(energies) // max_ticks  # Calculate step size for reduced ticks
         energies_to_show = energies[::step]  # Only show every `step`-th energy value
-        plt.xticks(energies_to_show, fontsize=12, rotation=45)
+        plt.xticks(energies_to_show, fontsize=tickfont, rotation=45)
     else:
-        plt.xticks(energies, fontsize=12, rotation=45)
+        plt.xticks(energies, fontsize=tickfont+8, rotation=45)
 
-    plt.yticks(fontsize=12)
+    plt.yticks(fontsize=tickfont)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
 
     plt.tight_layout()
@@ -88,44 +96,44 @@ def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plo
     """
     Generate a figure with 4 subplots corresponding to 4 selected subsystems, each showing a bar plot of self.p vs E_i.
     """
-    fig, axes = plt.subplots(2, 2, figsize=size)
+    # fig, axes = plt.subplots(2, 2, figsize=size)
 
-    # Flatten the axes array for easier iteration
-    axes = axes.flatten()
+    # # Flatten the axes array for easier iteration
+    # axes = axes.flatten()
 
-    for idx, ax in zip(subsystems_indices, axes):
-        sub = system.subsystems[idx]  # Get the subsystem by index
+    # for idx, ax in zip(subsystems_indices, axes):
+    #     sub = system.subsystems[idx]  # Get the subsystem by index
         
-        # Plot p vs E_i
-        ax.bar(system.E_i, sub.p, label="Data probability")
+    #     # Plot p vs E_i
+    #     ax.bar(system.E_i, sub.p, label="Data probability")
         
-        # Add text with the details (S, beta, E, C)
-        text = (f"S = {sub.S:.2f}\n"
-                f"$\\beta$ = {sub.beta:.2f}\n"
-                f"E = {sub.E}\n"
-                f"C = {sub.C:.2f}")
-        ax.text(0.1, 0.63, text, transform=ax.transAxes, fontsize=10,
-        ha='center', va='bottom', bbox=dict(facecolor='white', alpha=0.7, edgecolor='black', boxstyle='round,pad=0.5'))
+    #     # Add text with the details (S, beta, E, C)
+    #     text = (f"S = {sub.S:.2f}\n"
+    #             f"$\\beta$ = {sub.beta:.2f}\n"
+    #             f"E = {sub.E}\n"
+    #             f"C = {sub.C:.2f}")
+    #     ax.text(0.1, 0.63, text, transform=ax.transAxes, fontsize=10,
+    #     ha='center', va='bottom', bbox=dict(facecolor='white', alpha=0.7, edgecolor='black', boxstyle='round,pad=0.5'))
 
         
         
-        # Set axis labels and title
-        ax.set_xlabel("Energy", fontsize=labelfont)
-        ax.set_ylabel("Probability", fontsize=labelfont)
-        ax.set_title(f"E={sub.energy}", fontsize=titlefont)
+    #     # Set axis labels and title
+    #     ax.set_xlabel("Energy", fontsize=labelfont)
+    #     ax.set_ylabel("Probability", fontsize=labelfont)
+    #     ax.set_title(f"E={sub.energy}", fontsize=titlefont)
 
-        # Set the x-ticks and y-ticks with the proper font size
-        ax.tick_params(axis='x', which='major', labelsize=tickfont)
-        ax.set_ylim(0, 1)
+    #     # Set the x-ticks and y-ticks with the proper font size
+    #     ax.tick_params(axis='x', which='major', labelsize=tickfont)
+    #     ax.set_ylim(0, 1)
 
-    # Adjust layout
-    plt.tight_layout()
+    # # Adjust layout
+    # plt.tight_layout()
 
-    # Save plot as SVG if requested
-    if save:
-        os.makedirs(save_dir, exist_ok=True)
-        save_path = os.path.join(save_dir, filename)
-        plt.savefig(save_path, format=format, dpi=300)
+    # # Save plot as SVG if requested
+    # if save:
+    #     os.makedirs(save_dir, exist_ok=True)
+    #     save_path = os.path.join(save_dir, filename)
+    #     plt.savefig(save_path, format=format, dpi=300)
 
     # plt.show()
 
@@ -153,18 +161,21 @@ def plot_subsystem_details(system, subsystems_indices, save=False, save_dir="plo
         #         f"E = {sub.E}\n"
         #         f"C = {sub.C:.2f}")
         text = (f"$\\beta$ = {sub.beta:.2f}")
-        ax.text(0.1, 0.87, text, transform=ax.transAxes, fontsize=10,
+        ax.text(0.27, 0.8, text, transform=ax.transAxes, fontsize=tickfont,
         ha='center', va='bottom', bbox=dict(facecolor='white', alpha=0.7, edgecolor='black', boxstyle='round,pad=0.5'))
 
         
         
         # Set axis labels and title
-        ax.set_xlabel(f"$V_n$", fontsize=labelfont)
-        ax.set_ylabel("Probability", fontsize=labelfont)
+        fig.supxlabel(r"$V_n$", fontsize=labelfont+8)
+        fig.supylabel("Probability", fontsize=labelfont)
         ax.set_title(f"$\\Sigma$={sub.energy}", fontsize=titlefont)
 
         # Set the x-ticks and y-ticks with the proper font size
-        ax.tick_params(axis='x', which='major', labelsize=tickfont)
+        ax.set_xticks(system.E_i)
+        ax.tick_params(axis = "x", which="major", labelsize=24)
+        ax.tick_params(axis = "y", which="major", labelsize=18)
+        ax.set_yticks([0, 0.25, 0.5, 0.75])
         ax.set_ylim(0, 1)
 
     # Adjust layout
@@ -185,10 +196,11 @@ def plot_quantities(system, save=False, save_dir="plots/", filename=["S."+format
     beta = [sub.beta for sub in system.subsystems if sub.beta != 0] # Beta values
 
     # Plot S vs E
-    fig_S = plt.figure(figsize=(10, 6))
+    fig_S = plt.figure(figsize=(14, 10))
     plt.plot(E, S, color="black", linewidth = 3)
-    plt.xlabel(f'$\\Sigma_R$', fontsize=labelfont)
-    plt.ylabel(f'$S_R$', fontsize=labelfont)
+    plt.xlabel(f'$\\Sigma_R$', fontsize=labelfont+8)
+    plt.ylabel(f'$S_R$', fontsize=labelfont+8)
+    plt.tick_params(axis="both", which="major", labelsize=tickfont)
     #plt.title('S vs E', fontsize=titlefont)
     plt.grid()
     if save:
@@ -222,7 +234,7 @@ def plot_quantities(system, save=False, save_dir="plots/", filename=["S."+format
 def plot_all(system1, system2, system3, save=False, save_dir="plots", filename="Entropy_comparison."+format):
     systems = [system1,system2,system3]
     colors = ["blue","red","green"]
-    plt.figure(figsize=size)
+    plt.figure(figsize=(10,8))
     for i in range(len(systems)):
         energies = [sub.energy for sub in systems[i].subsystems if sub.S != 0]
         entropies = [sub.S for sub in systems[i].subsystems if sub.S != 0 ]
@@ -286,7 +298,7 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
                 beta_B.append(sub2.beta)
     
     if len(subsystems_indices)>1:
-        fig1 = plt.figure(figsize=size)
+        fig1 = plt.figure(figsize=(14,10))
 
         plt.plot(energies,entropies,color="black", linewidth = 3)
 
@@ -296,12 +308,14 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         # Add colorbar
         cbar = plt.colorbar(scatter)
         cbar.set_label(f'$\\Sigma_Q$', fontsize=labelfont)
+        cbar.ax.tick_params(labelsize=tickfont)
 
         # Labels and title
-        plt.xlabel(f"$\\Sigma_{{R+B}}$", fontsize=labelfont)
-        plt.ylabel(f"$S_{{R+B}}$",fontsize=labelfont)
+        plt.xlabel(f"$\\Sigma_{{R+B}}$", fontsize=labelfont+8)
+        plt.ylabel(f"$S_{{R+B}}$",fontsize=labelfont+8)
+        plt.tick_params(axis="both", which="major", labelsize=tickfont)
         #plt.title("Entropy Comparison for Systems in and Out of Equilibrium", fontsize=titlefont)
-        plt.legend(fontsize=legendfont)
+        plt.legend(fontsize=tickfont)
         plt.grid()
         plt.tight_layout
         if save:
@@ -309,7 +323,7 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
             fig1.savefig(save_path, format=format, dpi=300)
         #plt.show()
 
-        fig2= plt.figure(figsize=size)
+        fig2= plt.figure(figsize=(16,10))
         energies = [sub.energy for sub in system3.subsystems if sub.beta!=0]
         plt.plot(energies, betas, color="black", label=f"$\\beta^0$", linewidth = 3)
 
@@ -319,10 +333,16 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         # Add colorbar
         cbar = plt.colorbar(scatter)
         cbar.set_label(f'$\\Sigma_Q$', fontsize=labelfont)
+        cbar.ax.tick_params(labelsize=tickfont)
         
         # Labels and title
         plt.xlabel(f"$\\Sigma_{{R+B}}$", fontsize=labelfont)
         plt.ylabel(f"$\\beta$",fontsize=labelfont)
+        plt.tick_params(axis="both", which="major", labelsize=tickfont)
+        top_text = (f"$\\beta^0_R$: Top region points\n$\\beta^0_B$: Bottom region points")
+        plt.text(0.8, 0.83, top_text, transform=plt.gca().transAxes, fontsize=int(labelfont/2),
+        ha='center', va='bottom', bbox=dict(facecolor='white', alpha=0.7, edgecolor='black', boxstyle='round,pad=0.5'))
+
         #plt.title(f"$\\beta$ Comparison for Systems in and Out of Equilibrium", fontsize=titlefont)
         plt.grid()
         # plt.legend(fontsize=legendfont) 
@@ -336,7 +356,7 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         x_vals = np.arange(0,len(beta_A),1)
 
         # Create the plot
-        plt.figure(figsize=size)
+        plt.figure(figsize=(10,6))
         b_vals[0]=b_vals[1]
 
         # Plot the first half of the data
@@ -348,11 +368,12 @@ def plot_comparison(system1, system2, system3, subsystems_indices ,save=False, s
         # Add colorbar
         cbar = plt.colorbar(scatter)
         cbar.set_label('Heat transfer', fontsize=labelfont)
+        cbar.ax.tick_params(labelsize=tickfont)
         
-        top_text = (f"$\\beta^0_R$")
-        bottom_text = (f"$\\beta^0_B$")
-        plt.text(0.85, 0.91, top_text, transform=plt.gca().transAxes, fontsize=labelfont+4, ha='center', va='bottom')
-        plt.text(0.85, 0.02, bottom_text, transform=plt.gca().transAxes, fontsize=labelfont+4, ha='center', va='bottom')
+        top_text = (f"$\\beta^0_R$: Top region \n$\\beta^0_B$: Bottom region")
+        plt.text(0.8, 0.83, top_text, transform=plt.gca().transAxes, fontsize=int(labelfont/2),
+        ha='center', va='bottom', bbox=dict(facecolor='white', alpha=0.7, edgecolor='black', boxstyle='round,pad=0.5'))
+
 
 
         # Labels and title
